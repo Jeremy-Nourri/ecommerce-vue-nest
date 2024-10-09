@@ -1,13 +1,23 @@
 /** @type {import('tailwindcss').Config} */
 
-import daisyui from 'daisyui'
+import aspectRatio from '@tailwindcss/aspect-ratio'
+
+
 export default {
-  content: ["./src/**/*.{html,js,ts}"],
+  content: [
+    "./index.html",
+    "./src/**/*.{vue,js,ts,jsx,tsx}",
+  ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: '#F7A22E',
+        secondary: "#8D2B9C"
+      },
+    },
   },
   plugins: [
-    daisyui,
+    aspectRatio,
   ],
 }
 
