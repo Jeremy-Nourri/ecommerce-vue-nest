@@ -1,3 +1,50 @@
+<script setup lang="ts">
+import { ref, type PropType } from 'vue'
+import {
+    Dialog,
+    DialogPanel,
+    Popover,
+    PopoverButton,
+    PopoverGroup,
+    PopoverPanel,
+    Tab,
+    TabGroup,
+    TabList,
+    TabPanel,
+    TabPanels,
+    TransitionChild,
+    TransitionRoot,
+} from '@headlessui/vue'
+
+import Logo from '@/assets/img/logo.jpg'
+
+import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, UserCircleIcon, XMarkIcon } from '@heroicons/vue/24/outline'
+import type { ProductCollection } from '@/interfaces/ProductCollection';
+
+const props = defineProps({
+    productsData: {
+        type: Object as PropType<ProductCollection>,
+        required: true,
+    },
+});
+
+const open = ref(false);
+
+const navigation = {
+    categories: [
+        {
+            id: "Phone",
+            name: "Phone",
+        },
+        {
+            id: "Tablet",
+            name: "Tablet",
+        }
+    ],
+}
+
+</script>
+
 <template>
     <div class="bg-white">
         <!-- Mobile menu -->
@@ -33,7 +80,8 @@
                                         <ShoppingBagIcon
                                             class="h-8 w-8 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
                                             aria-hidden="true" />
-                                        <span class="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">0</span>
+                                        <span
+                                            class="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">0</span>
                                         <span class="sr-only">articles, voir le panier</span>
                                     </a>
                                 </div>
@@ -71,7 +119,7 @@
                                         class="space-y-10 px-4 pb-8 pt-10">
 
                                         <ul role="list" class="mt-6 flex flex-col space-y-6">
-                                            <li v-for="item in (category.name === 'Phone' ? products.phones : products.tablets)"
+                                            <li v-for="item in (category.name === 'Phone' ? props.productsData.phones : props.productsData.tablets)"
                                                 :key="item.id" class="flex">
                                                 <a :href="item.title" class="hover:text-gray-800">{{ item.title }}</a>
                                             </li>
@@ -87,8 +135,8 @@
             </Dialog>
         </TransitionRoot>
 
-
-        <header class="relative bg-white">
+        <!-- Desktop -->
+        <header class="relative bg-white z-30">
             <p
                 class="flex h-16 items-center justify-center bg-gradient-to-r from-secondary to-primary px-4 text-sm font-medium text-white sm:px-6 lg:px-8">
                 Site Ecommerce</p>
@@ -114,7 +162,8 @@
                         <!-- Flyout menus -->
                         <PopoverGroup class="hidden lg:ml-8 lg:block lg:self-stretch">
                             <div class="flex h-full space-x-8">
-                                <Popover v-for="category in navigation.categories" :key="category.id" class="flex" v-slot="{ open }">
+                                <Popover v-for="category in navigation.categories" :key="category.id" class="flex"
+                                    v-slot="{ open }">
                                     <div class="relative flex">
                                         <PopoverButton
                                             :class="[open ? 'border-primary text-primary' : 'border-transparent text-gray-700 hover:text-secondary', 'relative z-10 flex items-center border-b-2 pt-px text-sm font-medium transition-colors duration-200 ease-out']">
@@ -125,7 +174,7 @@
                                         enter-from-class="opacity-0" enter-to-class="opacity-100"
                                         leave-active-class="transition ease-in duration-150"
                                         leave-from-class="opacity-100" leave-to-class="opacity-0">
-                                        
+
                                         <PopoverPanel class="absolute inset-x-0 top-full text-sm text-gray-500">
 
                                             <div class="absolute inset-0 top-1/2 bg-white shadow" aria-hidden="true" />
@@ -139,7 +188,7 @@
 
 
                                                             <ul role="list" class="mt-6 space-y-6 sm:mt-4 sm:space-y-4">
-                                                                <li v-for="item in (category.name === 'Phone' ? products.phones : products.tablets)"
+                                                                <li v-for="item in (category.name === 'Phone' ? props.productsData.phones : props.productsData.tablets)"
                                                                     :key="item.id" class="flex">
                                                                     <a :href="item.title" class="hover:text-gray-800">{{
                                                                         item.title }}
@@ -196,96 +245,3 @@
         </header>
     </div>
 </template>
-
-<script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import {
-    Dialog,
-    DialogPanel,
-    Popover,
-    PopoverButton,
-    PopoverGroup,
-    PopoverPanel,
-    Tab,
-    TabGroup,
-    TabList,
-    TabPanel,
-    TabPanels,
-    TransitionChild,
-    TransitionRoot,
-} from '@headlessui/vue'
-
-import Logo from '@/assets/img/logo.jpg'
-
-import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, UserCircleIcon, XMarkIcon } from '@heroicons/vue/24/outline'
-import { PhoneService } from "@/services/PhoneService";
-import { TabletService } from '@/services/TabletService';
-import type { ProductCollection } from '@/interfaces/ProductCollection';
-
-const open = ref(false);
-
-const products = ref<ProductCollection>({
-    phones: [],
-    tablets: [],
-});
-
-
-const errorMessage = ref<string | null>(null);
-const loading = ref<boolean>(false);
-
-const phoneService = new PhoneService();
-const tabletService = new TabletService();
-
-const fetchPhones = async () => {
-    loading.value = true;
-    try {
-        const response = await phoneService.getPhones();
-        products.value.phones = Array.isArray(response) ? response : [];
-        if (!products.value.phones.length) {
-            errorMessage.value = "Aucun téléphone disponible.";
-        } else {
-            errorMessage.value = null;
-        }
-    } catch (error: any) {
-        errorMessage.value = error.message || "Erreur lors de la récupération des téléphones.";
-    } finally {
-        loading.value = false;
-    }
-};
-
-const fetchTablets = async () => {
-    loading.value = true;
-    try {
-        const response = await tabletService.getTablets();
-        products.value.tablets = Array.isArray(response) ? response : [];
-        if (!products.value.tablets.length) {
-            errorMessage.value = "Aucune tablette disponible.";
-        } else {
-            errorMessage.value = null;
-        }
-    } catch (error: any) {
-        errorMessage.value = error.message || "Erreur lors de la récupération des tablettes.";
-    } finally {
-        loading.value = false;
-    }
-};
-
-onMounted(() => {
-    fetchPhones();
-    fetchTablets();
-});
-
-const navigation = {
-    categories: [
-        {
-            id: "Phone",
-            name: "Phone",
-        },
-        {
-            id: "Tablet",
-            name: "Tablet",
-        }
-    ],
-}
-
-</script>
