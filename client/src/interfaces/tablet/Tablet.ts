@@ -3,7 +3,7 @@ import type { Meta } from './Meta';
 import type { Review } from './Review';
 
   
-  export interface Tablet {
+export interface Tablet {
     id: number;
     title: string;
     description: string;

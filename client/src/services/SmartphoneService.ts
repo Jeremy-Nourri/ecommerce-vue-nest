@@ -1,12 +1,11 @@
-import type { Tablet } from "@/interfaces/tablet/Tablet"
+import type { Phone } from "@/interfaces/phone/Phone"
 import type { ProductsResponse } from "@/interfaces/ProductsResponse"
 import { URL_API_CATEGORY, URL_API_PRODUCTS } from "@/env"
 
-export class TabletService {
-
-    public async getTablets(): Promise<ProductsResponse | []> {
+export class SmartphoneService {
+    public async getPhones(): Promise<ProductsResponse | []> {
         try {
-            const response = await fetch(`${URL_API_CATEGORY}tablets`)
+            const response = await fetch(`${URL_API_CATEGORY}smartphones`)
 
             if (!response.ok) {
                 throw new Error(`Erreur HTTP: ${response.status}`)
@@ -14,14 +13,13 @@ export class TabletService {
 
             const data = await response.json()
             return data.products
-            
         } catch (error) {
-            console.error("Erreur lors de la récupération des tablettes", error)
+            console.error("Erreur lors de la récupération des smartphones", error)
             return []
         }
     }
 
-    public async getTabletById(id: string): Promise<Tablet | undefined> {
+    public async getPhoneById(id: string): Promise<Phone | undefined> {
         try {
             const response = await fetch(`${URL_API_PRODUCTS}/products/${id}`)
 
@@ -35,11 +33,9 @@ export class TabletService {
 
                 throw new Error(`Erreur HTTP: ${response.status}`)
             }
-            
         } catch (error) {
-            console.error(`Erreur lors de la récupération de la tablette à l'ID : ${id}`, error)
+            console.error(`Erreur lors de la récupération du smartphone à l'ID : ${id}`, error)
             return undefined
         }
     }
-
 }

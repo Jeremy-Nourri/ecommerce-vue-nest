@@ -1,16 +1,18 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
 import HeaderApp from './components/HeaderApp.vue'
-import { useProductStore } from './store/useProductsStore';
+import { useProductStore } from './store/useProductsStore'
 
-const productsStore = useProductStore();
+const productsStore = useProductStore()
 
-import { onMounted } from 'vue';
+import { onMounted } from 'vue'
 
-onMounted(() => {
-  productsStore.fetchPhones();
-  productsStore.fetchTablets();
-});
+onMounted(
+    () => {
+        productsStore.fetchPhones()
+        productsStore.fetchTablets()
+    }
+)
 
 
 </script>

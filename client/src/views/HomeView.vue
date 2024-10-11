@@ -1,48 +1,42 @@
 <script setup lang="ts">
-import { onMounted } from 'vue';
-import { type ProductCollection } from '@/interfaces/ProductCollection';
-import { useProductStore } from '@/store/useProductsStore';
+import smartphoneImg from '@/assets/img/iphone.jpg'
+import tabletImg from '@/assets/img/tablette-samsung.jpg'
 
-const useProductsStore = useProductStore();
-
-onMounted(() => {
-  useProductsStore.fetchPhones();
-  useProductsStore.fetchTablets();
-});
-
-const productsData: ProductCollection = useProductsStore.products;
+const categoriesPage = [
+    {
+        thumbnail: smartphoneImg,
+        title: 'smartphones',
+    },
+    {
+        thumbnail: tabletImg,
+        title: 'tablets',
+    }
+]
 
 </script>
 
 <template>
-  <div class="bg-white">
+    <div class="bg-white">
 
+        <div v-for="(categorie, index) in categoriesPage" :key="index"
+            class="mx-auto max-w-2xl px-4 py-8 sm:px-6 sm:py-10 lg:max-w-7xl lg:px-8">
 
-    <div v-for="(categories, categoryName) in productsData" :key="categoryName"
-      class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-  
-      <h2 class="text-2xl font-bold tracking-tight text-gray-900">{{ categoryName.toUpperCase() }}</h2>
-      <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-        <div v-for="product in categories" :key="product.id" class="group relative bg-white">
+            <h2 class="text-2xl font-bold tracking-tight text-gray-900">{{ categorie.title.toUpperCase() }}</h2>
+            <div class="mt-3 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+                <div class="group relative bg-white">
 
-          
-          <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-white lg:aspect-none group-hover:opacity-75 lg:h-80">
-            <img :src="product.thumbnail" :alt="product.title"
-              class="h-full w-full object-cover lg:h-full lg:w-full" />
-          </div>
-          <div class="mt-4 flex justify-between">
-            <div>
-              <h3 class="text-sm text-gray-700">
-                <a :href="product.title">
-                  <span aria-hidden="true" class="absolute inset-0" />
-                  {{ product.title }}
-                </a>
-              </h3>
+                    <router-link :to="`/categorie/${categorie.title}`" class="group relative bg-white">
+                        <div
+                            class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-white lg:aspect-none group-hover:opacity-75 lg:h-80">
+                            <img :src="categorie.thumbnail" :alt="categorie.title"
+                                class="h-full w-full object-center object-cover lg:w-full lg:h-full" />
+                        </div>
+                    </router-link>
+
+                </div>
             </div>
-            <p class="text-sm font-medium text-gray-900">{{ product.price }} €</p>
-          </div>
         </div>
-      </div>
+
     </div>
-  </div>
+
 </template>

@@ -19,16 +19,16 @@ import {
 import Logo from '@/assets/img/logo.jpg'
 
 import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, UserCircleIcon, XMarkIcon } from '@heroicons/vue/24/outline'
-import type { ProductCollection } from '@/interfaces/ProductCollection';
+import type { ProductCollection } from '@/interfaces/ProductCollection'
 
 const props = defineProps({
     productsData: {
         type: Object as PropType<ProductCollection>,
         required: true,
     },
-});
+})
 
-const open = ref(false);
+const open = ref(false)
 
 const navigation = {
     categories: [
@@ -49,7 +49,9 @@ const navigation = {
     <div class="bg-white">
         <!-- Mobile menu -->
         <TransitionRoot as="template" :show="open">
+
             <Dialog class="relative z-40 lg:hidden" @close="open = false">
+
                 <TransitionChild as="template" enter="transition-opacity ease-linear duration-300"
                     enter-from="opacity-0" enter-to="opacity-100" leave="transition-opacity ease-linear duration-300"
                     leave-from="opacity-100" leave-to="opacity-0">
@@ -57,10 +59,12 @@ const navigation = {
                 </TransitionChild>
 
                 <div class="fixed inset-0 z-40 flex">
+
                     <TransitionChild as="template" enter="transition ease-in-out duration-300 transform"
                         enter-from="-translate-x-full" enter-to="translate-x-0"
                         leave="transition ease-in-out duration-300 transform" leave-from="translate-x-0"
                         leave-to="-translate-x-full">
+
                         <DialogPanel
                             class="relative flex w-full max-w-xs flex-col overflow-y-auto bg-white pb-12 shadow-xl">
                             <div class="flex px-4 pb-2 pt-5">
@@ -72,7 +76,6 @@ const navigation = {
                                     <XMarkIcon class="h-6 w-6" aria-hidden="true" />
                                 </button>
                             </div>
-
 
                             <div class="flex justify-end items-center px-6 h-10">
                                 <div class="mr-6">
@@ -97,8 +100,6 @@ const navigation = {
                                 </div>
 
                             </div>
-
-
 
                             <!-- Links -->
                             <TabGroup as="div" class="mt-2">
@@ -127,12 +128,16 @@ const navigation = {
 
                                     </TabPanel>
                                 </TabPanels>
+
                             </TabGroup>
 
                         </DialogPanel>
+
                     </TransitionChild>
                 </div>
+
             </Dialog>
+            
         </TransitionRoot>
 
         <!-- Desktop -->
