@@ -5,11 +5,11 @@ import tabletImg from '@/assets/img/tablette-samsung.jpg'
 const categoriesPage = [
     {
         thumbnail: smartphoneImg,
-        title: 'smartphones',
+        title: 'Smartphones',
     },
     {
         thumbnail: tabletImg,
-        title: 'tablets',
+        title: 'Tablets',
     }
 ]
 

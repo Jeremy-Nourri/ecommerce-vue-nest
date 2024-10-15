@@ -1,45 +1,33 @@
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue'
+import { computed, watch } from 'vue'
 import { useRoute } from 'vue-router';
-import { type Product } from '@/interfaces/ProductsResponse'
 import { useProductStore } from '@/store/useProductsStore'
 import FilterInput from '@/components/FilterInput.vue'
 
-const useProductsStore = useProductStore()
+const productsStore = useProductStore()
 
 const route = useRoute();
 
-const productsData = ref<Product[]>([]);
+const productsData = computed(() => productsStore.productsByCategory);
 
 const getCategoryName = () => {
     return Array.isArray(route.params.categoryName) ? route.params.categoryName[0] : route.params.categoryName;
 };
 
-onMounted(
-    async () => {
-        await useProductsStore.fetchProductsByCategory(getCategoryName());
-        productsData.value = useProductsStore.productsByCategory;
-    }
-);
-
 watch(
     () => route.params.categoryName,
-    async () => {
-        await useProductsStore.fetchProductsByCategory(getCategoryName());
-        productsData.value = useProductsStore.productsByCategory;
-    }
+    async () => {        
+        await productsStore.fetchProductsByCategory(getCategoryName());
+    },
+    { immediate: true }
 );
-
-const handleSortUpdate = () => {
-    productsData.value = useProductsStore.sortedProductsByCategory;
-};
 
 </script>
 
 <template>
     <div class="bg-white">
 
-        <FilterInput @update-sort="handleSortUpdate" />
+        <FilterInput @update-sort="productsStore.setSortCriteria($event)" />
 
         <div class="mx-auto max-w-2xl px-4 py-8 sm:px-6 sm:py-10 lg:max-w-7xl lg:px-8">
 

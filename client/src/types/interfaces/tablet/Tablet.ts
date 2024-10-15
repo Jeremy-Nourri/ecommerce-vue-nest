@@ -1,9 +1,8 @@
-import type { Dimensions } from './Dimensions';
-import type { Meta } from './Meta';
-import type { Review } from './Review';
+import type Dimensions from './Dimensions';
+import type Meta from './Meta';
+import type Review from './Review';
 
-  
-export interface Tablet {
+export default interface Tablet {
     id: number;
     title: string;
     description: string;

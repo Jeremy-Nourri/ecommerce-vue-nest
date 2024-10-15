@@ -4,12 +4,11 @@ import { SmartphoneService } from "@/services/SmartphoneService"
 import { TabletService } from "@/services/TabletService"
 import { CategoryService } from "@/services/CategoryService"
 import { ProductService } from "@/services/ProductService"
-import type { ProductCollection } from "@/interfaces/ProductCollection"
-import type { Product } from "@/interfaces/ProductsResponse"
-import type { SortProduct } from "@/types/SortProduct"
+import type ProductCollection from "@/types/interfaces/ProductCollection"
+import { type Product } from "@/types/ProductType"
+import type { SortProduct } from "@/types/SortProductType"
 
 export const useProductStore = defineStore("productStore", () => {
-
     //// States ////
 
     const products = ref<ProductCollection>({
@@ -37,6 +36,7 @@ export const useProductStore = defineStore("productStore", () => {
     //// Methods ////
 
     const fetchPhones = async () => {
+        if (products.value.phones.length > 0) return
 
         loading.value = true
 
@@ -49,16 +49,15 @@ export const useProductStore = defineStore("productStore", () => {
             } else {
                 errorMessage.value = null
             }
-
         } catch (error: any) {
             errorMessage.value = error.message || "Erreur lors de la récupération des téléphones."
-
         } finally {
             loading.value = false
         }
     }
 
     const fetchTablets = async () => {
+        if (products.value.tablets.length > 0) return
 
         loading.value = true
 
@@ -71,76 +70,75 @@ export const useProductStore = defineStore("productStore", () => {
             } else {
                 errorMessage.value = null
             }
-
         } catch (error: any) {
             errorMessage.value = error.message || "Erreur lors de la récupération des tablettes."
-
         } finally {
             loading.value = false
         }
     }
 
     const fetchProductsByCategory = async (categoryName: string) => {
-
         loading.value = true
 
         try {
             const response = await categoryService.getProductsByCategory(categoryName)
             productsByCategory.value = Array.isArray(response) ? response : []
+            console.log(productsByCategory.value);
+            console.log('Response from product service:', response);
 
             if (!productsByCategory.value.length) {
                 errorMessage.value = `Aucun produit de la catégorie ${categoryName} disponible.`
             } else {
                 errorMessage.value = null
             }
-
-        } catch (error: any) {
-            errorMessage.value =
-                error.message ||
-                `Erreur lors de la récupération des produits de la catégorie ${categoryName}.`
-        
+        } catch (error: unknown) {
+            errorMessage.value = error instanceof Error ? error.message : "Erreur lors de la récupération des produits."
         } finally {
             loading.value = false
         }
     }
 
     const fetchProductById = async (id: number) => {
-
         loading.value = true
 
         try {
             const response = await productService.getProductById(id)
-            
+            console.log('Response from product service:', response); 
+
             product.value = response
 
+            console.log('Product value:', product.value);
+            
+
+            
         } catch (error: any) {
             errorMessage.value = error.message || "Erreur lors de la récupération du produit."
-
         } finally {
             loading.value = false
         }
     }
 
     const setSortCriteria = (criteria: SortProduct) => {
-        sortCriteria.value = criteria
-    }
-
-    const sortedProductsByCategory = computed(() => {
-        return [...productsByCategory.value].sort((a, b) => {
+        sortCriteria.value = criteria;
+        sortProductsByCategory();
+    };
+    
+    const sortProductsByCategory = () => {
+        productsByCategory.value = [...productsByCategory.value].sort((a, b) => {
             switch (sortCriteria.value) {
             case "Prix croissant":
-                return a.price - b.price
+                return a.price - b.price;
             case "Prix décroissant":
-                return b.price - a.price
+                return b.price - a.price;
             case "Nom A-Z":
-                return a.title.localeCompare(b.title)
+                return a.title.localeCompare(b.title);
             case "Nom Z-A":
-                return b.title.localeCompare(a.title)
+                return b.title.localeCompare(a.title);
             default:
-                return 0
+                return 0;
             }
-        })
-    })
+        });
+    };
 
     return {
         products,
@@ -153,6 +151,6 @@ export const useProductStore = defineStore("productStore", () => {
         fetchProductsByCategory,
         fetchProductById,
         setSortCriteria,
-        sortedProductsByCategory
+
     }
 })

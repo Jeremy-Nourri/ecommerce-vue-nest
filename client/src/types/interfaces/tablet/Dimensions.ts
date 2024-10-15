@@ -1,5 +1,5 @@
 
-export interface Dimensions {
+export default interface Dimensions {
     width: number;
     height: number;
     depth: number;

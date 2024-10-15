@@ -19,7 +19,7 @@ import {
 import Logo from '@/assets/img/logo.jpg'
 
 import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, UserCircleIcon, XMarkIcon } from '@heroicons/vue/24/outline'
-import type { ProductCollection } from '@/interfaces/ProductCollection'
+import type ProductCollection from '@/types/interfaces/ProductCollection'
 
 const props = defineProps({
     productsData: {
@@ -33,12 +33,12 @@ const open = ref(false)
 const navigation = {
     categories: [
         {
-            id: "Phone",
-            name: "Phone",
+            id: "Smartphones",
+            name: "Smartphones",
         },
         {
-            id: "Tablet",
-            name: "Tablet",
+            id: "Tablets",
+            name: "Tablets",
         }
     ],
 }
@@ -120,12 +120,10 @@ const navigation = {
                                         class="space-y-10 px-4 pb-8 pt-10">
 
                                         <ul role="list" class="mt-6 flex flex-col space-y-6">
-                                            <li v-for="item in (category.name === 'Phone' ? props.productsData.phones : props.productsData.tablets)"
-                                                :key="item.id" class="flex">
-                                                <a :href="item.title" class="hover:text-gray-800">{{ item.title }}</a>
+                                            <li v-for="item in (category.name === 'Phone' ? props.productsData.phones : props.productsData.tablets)" :key="item.id" class="flex">
+                                                <router-link :to="`/produit/${item.id}`" class="hover:text-gray-800">{{ item.title }}</router-link>
                                             </li>
                                         </ul>
-
                                     </TabPanel>
                                 </TabPanels>
 
@@ -193,11 +191,9 @@ const navigation = {
 
 
                                                             <ul role="list" class="mt-6 space-y-6 sm:mt-4 sm:space-y-4">
-                                                                <li v-for="item in (category.name === 'Phone' ? props.productsData.phones : props.productsData.tablets)"
+                                                                <li v-for="item in (category.name === 'Smartphones' ? props.productsData.phones : props.productsData.tablets)"
                                                                     :key="item.id" class="flex">
-                                                                    <a :href="item.title" class="hover:text-gray-800">{{
-                                                                        item.title }}
-                                                                    </a>
+                                                                    <router-link :to="`/produit/${item.id}`"  class="hover:text-gray-800">{{ item.title }}</router-link>
                                                                 </li>
                                                             </ul>
 

@@ -1,5 +1,5 @@
-import type { Phone } from "@/interfaces/phone/Phone"
-import type { ProductsResponse } from "@/interfaces/ProductsResponse"
+import type Phone from "@/types/interfaces/phone/Phone"
+import type ProductsResponse from "@/types/interfaces/ProductsResponse"
 import { URL_API_CATEGORY, URL_API_PRODUCTS } from "@/env"
 
 export class SmartphoneService {
@@ -13,6 +13,7 @@ export class SmartphoneService {
 
             const data = await response.json()
             return data.products
+            
         } catch (error) {
             console.error("Erreur lors de la récupération des smartphones", error)
             return []
