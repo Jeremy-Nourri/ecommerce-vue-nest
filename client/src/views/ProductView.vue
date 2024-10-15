@@ -52,30 +52,24 @@ const reviewsAverage = computed(() => calculateTheReviewAverage(productStore.pro
             </nav>
 
             <!-- Image gallery -->
-            <div class="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
-                <div class="aspect-h-4 aspect-w-3 hidden overflow-hidden rounded-lg lg:block">
+            <div class="mx-auto mt-4 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
+                <div class="aspect-h-4 aspect-w-4 lg:aspect-h-4 lg:aspect-w-3 sm:overflow-hidden sm:rounded-lg mb-6">
                     <img :src="productStore.product?.images[0]" :alt="productStore.product?.title"
-                        class="h-full w-full object-cover object-center" />
+                        class="h-full w-full object-contain object-center" />
                 </div>
-                <div class="hidden lg:grid lg:grid-cols-1 lg:gap-y-8">
-                    <div class="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
-                        <img :src="productStore.product?.images[1]" :alt="productStore.product?.title"
-                            class="h-full w-full object-cover object-center" />
-                    </div>
-                    <div class="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
-                        <img :src="productStore.product?.images[2]" :alt="productStore.product?.title"
-                            class="h-full w-full object-cover object-center" />
-                    </div>
+                <div class="aspect-h-4 aspect-w-4 lg:aspect-h-4 lg:aspect-w-3 sm:overflow-hidden sm:rounded-lg">
+                    <img :src="productStore.product?.images[1]" :alt="productStore.product?.title"
+                        class="h-full w-full object-contain object-center" />
                 </div>
-                <div class="aspect-h-5 aspect-w-4 lg:aspect-h-4 lg:aspect-w-3 sm:overflow-hidden sm:rounded-lg">
-                    <img :src="productStore.product?.images[3]" :alt="productStore.product?.title"
-                        class="h-full w-full object-cover object-center" />
+                <div class="aspect-h-4 aspect-w-4 lg:aspect-h-4 lg:aspect-w-3 sm:overflow-hidden sm:rounded-lg">
+                    <img :src="productStore.product?.images[2]" :alt="productStore.product?.title"
+                        class="h-full w-full object-contain object-center" />
                 </div>
             </div>
 
-            <!-- productStore.product? info -->
+            <!-- product info -->
             <div
-                class="mx-auto max-w-2xl px-4 pb-16 pt-10 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-16">
+                class="mx-auto max-w-2xl px-4 pb-16 pt-4 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-6">
                 <div class="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
                     <h1 class="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">{{ productStore.product?.title }}</h1>
                 </div>
@@ -99,6 +93,8 @@ const reviewsAverage = computed(() => calculateTheReviewAverage(productStore.pro
                                 class="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500">{{
                                 productStore.product?.reviews ? productStore.product?.reviews.length : 0 }} reviews</p>
                         </div>
+                        <button type="submit" class="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-secondary px-8 py-3 text-base font-medium text-white hover:opacity-80 focus:outline-none focus:ring-2 focus:bg-secondary focus:ring-offset-2">Add to bag</button>
+
                     </div>
                 </div>
 
@@ -111,6 +107,7 @@ const reviewsAverage = computed(() => calculateTheReviewAverage(productStore.pro
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>

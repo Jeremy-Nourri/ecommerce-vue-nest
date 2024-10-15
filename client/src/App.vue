@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
 import HeaderApp from './components/HeaderApp.vue'
+import FooterApp from './components/FooterApp.vue';
 import { useProductStore } from './store/useProductsStore'
 
 const productsStore = useProductStore()
@@ -18,10 +19,9 @@ onMounted(
 </script>
 
 <template>
-  <HeaderApp :productsData="productsStore.products" />  
-  <RouterView/>
+    <HeaderApp :productsData="productsStore.products" />
+    <RouterView />
+    <FooterApp />
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

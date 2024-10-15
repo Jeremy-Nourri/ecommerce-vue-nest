@@ -18,8 +18,11 @@ import {
 
 import Logo from '@/assets/img/logo.jpg'
 
-import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, UserCircleIcon, XMarkIcon } from '@heroicons/vue/24/outline'
+import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, UserCircleIcon, XMarkIcon, LogoutIcon, CheckIcon } from '@heroicons/vue/24/outline'
 import type ProductCollection from '@/types/interfaces/ProductCollection'
+import { useAuthStore } from '@/store/useAuthStore'
+
+const authStore = useAuthStore()
 
 const props = defineProps({
     productsData: {
@@ -90,14 +93,29 @@ const navigation = {
                                 </div>
 
                                 <!-- User -->
-                                <div>
-                                    <a href="#" class="group p-2 text-gray-400">
-                                        <UserCircleIcon
-                                            class="h-8 w-8 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
-                                            aria-hidden="true" />
+                                <div class="flex flex-col items-center p-2">
+                                    <!-- Lien vers login avec l'icône de l'utilisateur -->
+                                    <router-link to="/login" class="group flex flex-col items-center text-gray-400">
+                                        <div class="relative">
+                                            <UserCircleIcon
+                                                :class="[authStore.user ? 'text-primary' : 'text-gray-400', 'h-8 w-8 flex-shrink-0']"
+                                                aria-hidden="true" />
+                                            <CheckIcon v-if="authStore.user"
+                                                class="absolute h-4 w-4 text-green-700 bottom-0 right-0 transform translate-x-1 translate-y-1"
+                                                aria-hidden="true" />
+                                        </div>
+
                                         <span class="sr-only">Compte</span>
-                                    </a>
+
+                                        <!-- Affichage du nom de l'utilisateur ou du texte "Log in" -->
+                                        <div v-if="authStore.user" class="flex items-center">
+                                            <p class="text-xs">{{ authStore.user.username }}</p>
+                                        </div>
+                                        <p v-else class="text-xs">Log in</p>
+                                    </router-link>
                                 </div>
+
+
 
                             </div>
 
@@ -120,8 +138,10 @@ const navigation = {
                                         class="space-y-10 px-4 pb-8 pt-10">
 
                                         <ul role="list" class="mt-6 flex flex-col space-y-6">
-                                            <li v-for="item in (category.name === 'Phone' ? props.productsData.phones : props.productsData.tablets)" :key="item.id" class="flex">
-                                                <router-link :to="`/produit/${item.id}`" class="hover:text-gray-800">{{ item.title }}</router-link>
+                                            <li v-for="item in (category.name === 'Smartphones' ? props.productsData.phones : props.productsData.tablets)"
+                                                :key="item.id" class="flex">
+                                                <router-link :to="`/produit/${item.id}`" class="hover:text-gray-800">{{
+                                                    item.title }}</router-link>
                                             </li>
                                         </ul>
                                     </TabPanel>
@@ -135,7 +155,7 @@ const navigation = {
                 </div>
 
             </Dialog>
-            
+
         </TransitionRoot>
 
         <!-- Desktop -->
@@ -193,7 +213,9 @@ const navigation = {
                                                             <ul role="list" class="mt-6 space-y-6 sm:mt-4 sm:space-y-4">
                                                                 <li v-for="item in (category.name === 'Smartphones' ? props.productsData.phones : props.productsData.tablets)"
                                                                     :key="item.id" class="flex">
-                                                                    <router-link :to="`/produit/${item.id}`"  class="hover:text-gray-800">{{ item.title }}</router-link>
+                                                                    <router-link :to="`/produit/${item.id}`"
+                                                                        class="hover:text-gray-800">{{ item.title
+                                                                        }}</router-link>
                                                                 </li>
                                                             </ul>
 
@@ -211,33 +233,45 @@ const navigation = {
                         <div class="ml-auto flex items-center">
 
                             <!-- Search -->
-                            <div class="flex lg:ml-6">
+                            <div class="md:flex lg:ml-6 hidden">
                                 <a href="#" class="p-2 text-gray-400 hover:text-gray-500">
                                     <span class="sr-only">Recherche</span>
                                     <MagnifyingGlassIcon class="h-6 w-6" aria-hidden="true" />
                                 </a>
                             </div>
 
-                            <!-- Cart -->
-                            <div class="ml-4 flow-root lg:ml-6">
-                                <a href="#" class="group -m-2 flex items-center p-2">
-                                    <ShoppingBagIcon
-                                        class="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
-                                        aria-hidden="true" />
-                                    <span
-                                        class="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">0</span>
-                                    <span class="sr-only">articles, voir le panier</span>
-                                </a>
-                            </div>
+                            <div class="flex justify-end items-center px-6 h-10">
+                                <div class="mr-6">
+                                    <a href="#" class="group -m-2 flex items-center p-2">
+                                        <ShoppingBagIcon
+                                            class="h-8 w-8 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
+                                            aria-hidden="true" />
+                                        <span
+                                            class="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">0</span>
+                                        <span class="sr-only">articles, voir le panier</span>
+                                    </a>
+                                </div>
 
-                            <!-- User -->
-                            <div class="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6 lg:ml-4">
-                                <a href="#" class="group p-2 text-gray-400">
-                                    <span class="sr-only">Compte</span>
-                                    <UserCircleIcon
-                                        class="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
-                                        aria-hidden="true" />
-                                </a>
+                                <!-- User -->
+                                <div class="flex flex-col items-center p-2">
+                                    <router-link :to="authStore.user ? '/my-account' : '/login'" class="group flex flex-col items-center text-gray-400">
+                                        <div class="relative">
+                                            <UserCircleIcon
+                                                :class="[authStore.user ? 'text-primary' : 'text-gray-400', 'h-8 w-8 flex-shrink-0']"
+                                                aria-hidden="true" />
+                                            <CheckIcon v-if="authStore.user"
+                                                class="absolute h-4 w-4 text-green-700 bottom-0 right-0 transform translate-x-1 translate-y-1"
+                                                aria-hidden="true" />
+                                        </div>
+
+                                        <span class="sr-only">Compte</span>
+
+                                        <div v-if="authStore.user" class="flex items-center">
+                                            <p class="text-xs">{{ authStore.user.username }}</p>
+                                        </div>
+                                        <p v-else class="text-xs">Log in</p>
+                                    </router-link>
+                                </div>
                             </div>
                         </div>
                     </div>
