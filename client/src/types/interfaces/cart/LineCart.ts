@@ -1,5 +1,5 @@
 
-export default interface LineBag {
+export default interface LineCart {
     id: number;
     title: string;
     price: number;

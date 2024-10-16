@@ -25,4 +25,5 @@ export default interface Phone {
   meta: Meta;
   images: string[];
   thumbnail: string;
+  quantity?: number;
 }

@@ -82,14 +82,14 @@ const navigation = {
 
                             <div class="flex justify-end items-center px-6 h-10">
                                 <div class="mr-6">
-                                    <a href="#" class="group -m-2 flex items-center p-2">
+                                    <router-link to="/cart" class="group -m-2 flex items-center p-2">
                                         <ShoppingBagIcon
                                             class="h-8 w-8 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
                                             aria-hidden="true" />
                                         <span
                                             class="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">0</span>
                                         <span class="sr-only">articles, voir le panier</span>
-                                    </a>
+                                    </router-link>
                                 </div>
 
                                 <!-- User -->

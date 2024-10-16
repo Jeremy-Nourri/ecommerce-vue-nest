@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia'
-import type Cart from '../types/interfaces/cart/Cart'
 import { ref } from 'vue'
 
 interface CartDummy {

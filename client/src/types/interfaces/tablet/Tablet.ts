@@ -25,6 +25,7 @@ export default interface Tablet {
     meta: Meta;
     images: string[];
     thumbnail: string;
+    quantity?: number;
   }
 
   

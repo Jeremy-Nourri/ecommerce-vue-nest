@@ -1,13 +1,10 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
-import { useProductStore } from '@/store/useProductsStore';
 import { Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions } from '@headlessui/vue'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
 import type { SortProduct } from '@/types/SortProductType';
 
 const sortingChoiceArray: SortProduct[] = ["Aucun tri", "Prix croissant", "Prix décroissant", "Nom A-Z", "Nom Z-A"]
-
-const { setSortCriteria } = useProductStore()
 
 const selected = ref<SortProduct>('Aucun tri')
 

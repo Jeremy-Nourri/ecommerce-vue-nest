@@ -4,6 +4,7 @@ import CategoryView from "../views/CategoryView.vue"
 import ProductView from "../views/ProductView.vue"
 import LoginView from "../views/LoginView.vue"
 import UserAccountView from "@/views/UserAccountView.vue"
+import CartView from "@/views/CartView.vue"
 import { useAuthStore } from "../store/useAuthStore"
 
 const router = createRouter({
@@ -33,6 +34,11 @@ const router = createRouter({
             path: "/my-account",
             name: "my-account",
             component: UserAccountView
+        },
+        {
+            path: "/cart",
+            name: "cart",
+            component: CartView
         }
     ]
 })

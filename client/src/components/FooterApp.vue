@@ -10,13 +10,13 @@
                     <router-link to="/" class="text-base text-gray-300 hover:text-white">Home</router-link>
                 </div>
                 <div class="px-5 py-2">
-                    <router-link to="/smartphones" class="text-base text-gray-300 hover:text-white">Smartphones</router-link>
+                    <router-link to="#" class="text-base text-gray-300 hover:text-white">Smartphones</router-link>
                 </div>
                 <div class="px-5 py-2">
-                    <router-link to="/tablets" class="text-base text-gray-300 hover:text-white">Tablets</router-link>
+                    <router-link to="#" class="text-base text-gray-300 hover:text-white">Tablets</router-link>
                 </div>
                 <div class="px-5 py-2">
-                    <router-link to="/contact" class="text-base text-gray-300 hover:text-white">Contact</router-link>
+                    <router-link to="#" class="text-base text-gray-300 hover:text-white">Contact</router-link>
                 </div>
             </nav>
             <p class="mt-8 text-center text-base text-gray-300">&copy; 2024 E-commerce</p>
