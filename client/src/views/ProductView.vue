@@ -4,6 +4,7 @@ import { watch, computed, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useProductStore } from '@/store/useProductsStore';
 import { useCartStore } from '@/store/useCartStore';
+import { useAuthStore } from '@/store/useAuthStore';
 
 import calculateTheReviewAverage from '@/utils/calculateTheReviewAverage';
 import { StarIcon } from '@heroicons/vue/20/solid'
@@ -12,6 +13,7 @@ import QuantityInput from '@/components/QuantityInput.vue';
 
 const productStore = useProductStore();
 const cartStore = useCartStore();
+const authStore = useAuthStore();
 
 const route = useRoute();
 
@@ -21,9 +23,12 @@ const handleQuantityUpdate = (value: number) => {
     quantity.value = value;
 };
 
+const handleSubmit = () => {
+    cartStore.addProductToCart(authStore.user?.id ?? 0, productStore.product?.id ?? 0, quantity.value);
+};
+
 const getProductId = () => {
     return Array.isArray(route.params.productId) ? route.params.productId[0] : route.params.productId;
-
 };
 
 watch(
@@ -33,6 +38,7 @@ watch(
     },
     { immediate: true }
 );
+
 const reviewsAverage = computed(() => calculateTheReviewAverage(productStore.product?.reviews ?? []));
 
 </script>
@@ -106,11 +112,14 @@ const reviewsAverage = computed(() => calculateTheReviewAverage(productStore.pro
                                 class="ml-3 text-sm font-medium text-secondary hover:opacity-80">{{
                                 productStore.product?.reviews ? productStore.product?.reviews.length : 0 }} reviews</p>
                         </div>
-                        <button type="submit" class="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-secondary
+                        <div class="mt-10 ">
+                            <QuantityInput @update-quantity="handleQuantityUpdate" />
+                            <button @click="handleSubmit" type="submit" class="flex w-full items-center justify-center rounded-md border border-transparent bg-secondary
                             px-8 py-3 text-base font-medium text-white hover:opacity-80 focus:outline-none focus:ring-2 focus:bg-secondary focus:ring-offset-2">
-                            Add to bag
-                        </button>
-                        <QuantityInput @update:quantity="handleQuantityUpdate" />
+                                Add to bag
+                            </button>
+                        </div>
+
 
                     </div>
                 </div>

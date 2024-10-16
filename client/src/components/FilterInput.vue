@@ -14,7 +14,6 @@ const selected = ref<SortProduct>('Aucun tri')
 const emit = defineEmits(['update-sort'])
 
 watch(selected, (newVal) => {
-    setSortCriteria(newVal)
     emit('update-sort', newVal)
 })
 

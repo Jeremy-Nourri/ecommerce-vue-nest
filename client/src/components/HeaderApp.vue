@@ -18,7 +18,7 @@ import {
 
 import Logo from '@/assets/img/logo.jpg'
 
-import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, UserCircleIcon, XMarkIcon, LogoutIcon, CheckIcon } from '@heroicons/vue/24/outline'
+import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, UserCircleIcon, XMarkIcon, CheckIcon } from '@heroicons/vue/24/outline'
 import type ProductCollection from '@/types/interfaces/ProductCollection'
 import { useAuthStore } from '@/store/useAuthStore'
 
@@ -93,27 +93,26 @@ const navigation = {
                                 </div>
 
                                 <!-- User -->
-                                <div class="flex flex-col items-center p-2">
-                                    <!-- Lien vers login avec l'icône de l'utilisateur -->
-                                    <router-link to="/login" class="group flex flex-col items-center text-gray-400">
-                                        <div class="relative">
-                                            <UserCircleIcon
-                                                :class="[authStore.user ? 'text-primary' : 'text-gray-400', 'h-8 w-8 flex-shrink-0']"
-                                                aria-hidden="true" />
-                                            <CheckIcon v-if="authStore.user"
-                                                class="absolute h-4 w-4 text-green-700 bottom-0 right-0 transform translate-x-1 translate-y-1"
-                                                aria-hidden="true" />
-                                        </div>
 
-                                        <span class="sr-only">Compte</span>
+                                <router-link to="/login" class="min group flex flex-col items-center text-gray-400">
+                                    <div class="relative">
+                                        <UserCircleIcon
+                                            :class="[authStore.user ? 'text-primary' : 'text-gray-400', 'h-8 w-8 flex-shrink-0']"
+                                            aria-hidden="true" />
+                                        <CheckIcon v-if="authStore.user"
+                                            class="absolute h-4 w-4 text-green-700 bottom-0 right-0 transform translate-x-1 translate-y-1"
+                                            aria-hidden="true" />
+                                    </div>
 
-                                        <!-- Affichage du nom de l'utilisateur ou du texte "Log in" -->
-                                        <div v-if="authStore.user" class="flex items-center">
-                                            <p class="text-xs">{{ authStore.user.username }}</p>
-                                        </div>
-                                        <p v-else class="text-xs">Log in</p>
-                                    </router-link>
-                                </div>
+                                    <span class="sr-only">Compte</span>
+
+                                    <!-- Affichage du nom de l'utilisateur ou du texte "Log in" -->
+
+                                    <p v-if="authStore.user" class="text-xs">{{ authStore.user.username }}</p>
+
+                                    <p v-else class="text-xs">Log in</p>
+                                </router-link>
+
 
                             </div>
 
@@ -160,11 +159,14 @@ const navigation = {
         <header class="relative bg-white z-30">
             <p
                 class="flex h-16 items-center justify-center bg-gradient-to-r from-secondary to-primary px-4 text-sm font-medium text-white sm:px-6 lg:px-8">
-                Site Ecommerce</p>
+                Site Ecommerce
+            </p>
 
             <nav aria-label="Top" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div class="border-b border-gray-200">
-                    <div class="flex h-16 items-center">
+
+                <div class="w-full flex justify-between h-16 border-b border-gray-200">
+
+                    <div class="w-full flex justify-between">
                         <button type="button" class="relative rounded-md bg-white p-2 text-gray-400 lg:hidden"
                             @click="open = true">
                             <span class="absolute -inset-0.5"></span>
@@ -174,106 +176,106 @@ const navigation = {
 
                         <!-- Logo -->
                         <div class="ml-4 flex lg:ml-0">
-                            <a href="#">
+                            <router-link to="/">
                                 <span class="sr-only">Ecommerce</span>
                                 <img :src="Logo" alt="Ecommerce" class="h-14 w-auto" />
-                            </a>
+                            </router-link>
                         </div>
-
-                        <!-- Flyout menus -->
-                        <PopoverGroup class="hidden lg:ml-8 lg:block lg:self-stretch">
-                            <div class="flex h-full space-x-8">
-                                <Popover v-for="category in navigation.categories" :key="category.id" class="flex"
-                                    v-slot="{ open }">
-                                    <div class="relative flex">
-                                        <PopoverButton
-                                            :class="[open ? 'border-primary text-primary' : 'border-transparent text-gray-700 hover:text-secondary', 'relative z-10 flex items-center border-b-2 pt-px text-sm font-medium transition-colors duration-200 ease-out']">
-                                            {{ category.name }}</PopoverButton>
-                                    </div>
-
-                                    <transition enter-active-class="transition ease-out duration-200"
-                                        enter-from-class="opacity-0" enter-to-class="opacity-100"
-                                        leave-active-class="transition ease-in duration-150"
-                                        leave-from-class="opacity-100" leave-to-class="opacity-0">
-
-                                        <PopoverPanel class="absolute inset-x-0 top-full text-sm text-gray-500">
-
-                                            <div class="absolute inset-0 top-1/2 bg-white shadow" aria-hidden="true" />
-
-                                            <div class="relative bg-white">
-                                                <div class="mx-auto max-w-7xl px-8">
-                                                    <div class="grid grid-cols-2 gap-x-8 gap-y-10 py-16">
-
-                                                        <div
-                                                            class="row-start-1 grid grid-cols-3 gap-x-8 gap-y-10 text-sm">
+                    </div>
 
 
-                                                            <ul role="list" class="mt-6 space-y-6 sm:mt-4 sm:space-y-4">
-                                                                <li v-for="item in (category.name === 'Smartphones' ? props.productsData.phones : props.productsData.tablets)"
-                                                                    :key="item.id" class="flex">
-                                                                    <router-link :to="`/produit/${item.id}`"
-                                                                        class="hover:text-gray-800">{{ item.title
-                                                                        }}</router-link>
-                                                                </li>
-                                                            </ul>
 
-                                                        </div>
+                    <!-- Flyout menus -->
+                    <PopoverGroup class="hidden lg:ml-8 lg:block lg:self-stretch">
+                        <div class="flex h-full space-x-8">
+                            <Popover v-for="category in navigation.categories" :key="category.id" class="flex"
+                                v-slot="{ open }">
+                                <div class="relative flex">
+                                    <PopoverButton
+                                        :class="[open ? 'border-primary text-primary' : 'border-transparent text-gray-700 hover:text-secondary', 'relative z-10 flex items-center border-b-2 pt-px text-sm font-medium transition-colors duration-200 ease-out']">
+                                        {{ category.name }}</PopoverButton>
+                                </div>
+
+                                <transition enter-active-class="transition ease-out duration-200"
+                                    enter-from-class="opacity-0" enter-to-class="opacity-100"
+                                    leave-active-class="transition ease-in duration-150" leave-from-class="opacity-100"
+                                    leave-to-class="opacity-0">
+
+                                    <PopoverPanel class="absolute inset-x-0 top-full text-sm text-gray-500">
+
+                                        <div class="absolute inset-0 top-1/2 bg-white shadow" aria-hidden="true" />
+
+                                        <div class="relative bg-white">
+                                            <div class="mx-auto max-w-7xl px-8">
+                                                <div class="grid grid-cols-2 gap-x-8 gap-y-10 py-16">
+
+                                                    <div class="row-start-1 grid grid-cols-3 gap-x-8 gap-y-10 text-sm">
+
+
+                                                        <ul role="list" class="mt-6 space-y-6 sm:mt-4 sm:space-y-4">
+                                                            <li v-for="item in (category.name === 'Smartphones' ? props.productsData.phones : props.productsData.tablets)"
+                                                                :key="item.id" class="flex">
+                                                                <router-link :to="`/produit/${item.id}`"
+                                                                    class="hover:text-gray-800">{{ item.title }}
+                                                                </router-link>
+                                                            </li>
+                                                        </ul>
+
                                                     </div>
                                                 </div>
                                             </div>
-                                        </PopoverPanel>
-                                    </transition>
-                                </Popover>
+                                        </div>
+                                    </PopoverPanel>
+                                </transition>
+                            </Popover>
 
-                            </div>
-                        </PopoverGroup>
+                        </div>
+                    </PopoverGroup>
 
-                        <div class="ml-auto flex items-center">
+                    <div class="ml-auto flex items-center">
 
-                            <!-- Search -->
-                            <div class="md:flex lg:ml-6 hidden">
-                                <a href="#" class="p-2 text-gray-400 hover:text-gray-500">
-                                    <span class="sr-only">Recherche</span>
-                                    <MagnifyingGlassIcon class="h-6 w-6" aria-hidden="true" />
+                        <!-- Search -->
+                        <div class="hidden md:flex lg:ml-6 ">
+                            <a href="#" class="p-2 text-gray-400 hover:text-gray-500">
+                                <span class="sr-only">Recherche</span>
+                                <MagnifyingGlassIcon class="h-6 w-6" aria-hidden="true" />
+                            </a>
+                        </div>
+
+                        <div class="hidden md:flex justify-end items-center px-6 h-10">
+                            <div class="mr-6">
+                                <a href="#" class="group -m-2 flex items-center p-2">
+                                    <ShoppingBagIcon
+                                        class="h-8 w-8 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
+                                        aria-hidden="true" />
+                                    <span
+                                        class="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">0</span>
+                                    <span class="sr-only">articles, voir le panier</span>
                                 </a>
                             </div>
 
-                            <div class="flex justify-end items-center px-6 h-10">
-                                <div class="mr-6">
-                                    <a href="#" class="group -m-2 flex items-center p-2">
-                                        <ShoppingBagIcon
-                                            class="h-8 w-8 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
-                                            aria-hidden="true" />
-                                        <span
-                                            class="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">0</span>
-                                        <span class="sr-only">articles, voir le panier</span>
-                                    </a>
+                            <!-- User -->
+
+                            <router-link :to="authStore.user ? '/my-account' : '/login'"
+                                class="group flex flex-col items-center min-w-12 text-gray-400">
+                                <div class="relative">
+                                    <UserCircleIcon
+                                        :class="[authStore.user ? 'text-primary' : 'text-gray-400', 'h-8 w-8 flex-shrink-0']"
+                                        aria-hidden="true" />
+                                    <CheckIcon v-if="authStore.user"
+                                        class="absolute h-4 w-4 text-green-700 bottom-0 right-0 transform translate-x-1 translate-y-1"
+                                        aria-hidden="true" />
                                 </div>
 
-                                <!-- User -->
-                                <div class="flex flex-col items-center p-2">
-                                    <router-link :to="authStore.user ? '/my-account' : '/login'" class="group flex flex-col items-center text-gray-400">
-                                        <div class="relative">
-                                            <UserCircleIcon
-                                                :class="[authStore.user ? 'text-primary' : 'text-gray-400', 'h-8 w-8 flex-shrink-0']"
-                                                aria-hidden="true" />
-                                            <CheckIcon v-if="authStore.user"
-                                                class="absolute h-4 w-4 text-green-700 bottom-0 right-0 transform translate-x-1 translate-y-1"
-                                                aria-hidden="true" />
-                                        </div>
+                                <span class="sr-only">Compte</span>
 
-                                        <span class="sr-only">Compte</span>
-
-                                        <div v-if="authStore.user" class="flex items-center">
-                                            <p class="text-xs">{{ authStore.user.username }}</p>
-                                        </div>
-                                        <p v-else class="text-xs">Log in</p>
-                                    </router-link>
-                                </div>
-                            </div>
+                                <p v-if="authStore.user" class="text-xs">{{ authStore.user.username }}</p>
+                                <p v-else class="text-xs">Log in</p>
+                            </router-link>
                         </div>
                     </div>
                 </div>
+
             </nav>
         </header>
     </div>
