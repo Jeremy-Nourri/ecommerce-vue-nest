@@ -1,5 +1,6 @@
 import { URL_API_PRODUCTS } from "@/env"
 import { type Product } from "@/types/ProductType"
+import FetchError from "@/utils/error/FetchError";
 
 export class ProductService {
     public async getProductById(id: number): Promise<Product | null> {
@@ -14,7 +15,7 @@ export class ProductService {
                     return null
                 }
 
-                throw new Error(`Erreur HTTP: ${response.status}`)
+                throw new FetchError(response.statusText, response.status, errorData)
             }
 
             return await response.json()

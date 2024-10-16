@@ -1,5 +1,5 @@
 import { defineStore } from "pinia"
-import { computed, ref } from "vue"
+import { ref } from "vue"
 import { SmartphoneService } from "@/services/SmartphoneService"
 import { TabletService } from "@/services/TabletService"
 import { CategoryService } from "@/services/CategoryService"
@@ -7,9 +7,11 @@ import { ProductService } from "@/services/ProductService"
 import type ProductCollection from "@/types/interfaces/ProductCollection"
 import { type Product } from "@/types/ProductType"
 import type { SortProduct } from "@/types/SortProductType"
+import { useHandleError } from "@/composables/useHandleError"
 
 export const useProductStore = defineStore("productStore", () => {
-    //// States ////
+    
+    //////// States ////////
 
     const products = ref<ProductCollection>({
         phones: [],
@@ -18,7 +20,6 @@ export const useProductStore = defineStore("productStore", () => {
 
     const productsByCategory = ref<Product[] | []>([])
 
-    //
     const product = ref<Product | null>(null)
 
     const sortCriteria = ref<SortProduct>("Aucun tri")
@@ -26,14 +27,18 @@ export const useProductStore = defineStore("productStore", () => {
     const loading = ref<boolean>(false)
     const errorMessage = ref<string | null>(null)
 
-    //// Services ////
+    //////// Services ////////
 
     const phoneService = new SmartphoneService()
     const tabletService = new TabletService()
     const categoryService = new CategoryService()
     const productService = new ProductService()
 
-    //// Methods ////
+    //////// Hooks ////////
+
+    const handleError = useHandleError(errorMessage)
+
+    //////// Methods ////////
 
     const fetchPhones = async () => {
         if (products.value.phones.length > 0) return
@@ -49,8 +54,8 @@ export const useProductStore = defineStore("productStore", () => {
             } else {
                 errorMessage.value = null
             }
-        } catch (error: any) {
-            errorMessage.value = error.message || "Erreur lors de la récupération des téléphones."
+        } catch (error: unknown) {
+            handleError(error)
         } finally {
             loading.value = false
         }
@@ -70,8 +75,8 @@ export const useProductStore = defineStore("productStore", () => {
             } else {
                 errorMessage.value = null
             }
-        } catch (error: any) {
-            errorMessage.value = error.message || "Erreur lors de la récupération des tablettes."
+        } catch (error: unknown) {
+            handleError(error)
         } finally {
             loading.value = false
         }
@@ -83,8 +88,6 @@ export const useProductStore = defineStore("productStore", () => {
         try {
             const response = await categoryService.getProductsByCategory(categoryName)
             productsByCategory.value = Array.isArray(response) ? response : []
-            console.log(productsByCategory.value);
-            console.log('Response from product service:', response);
 
             if (!productsByCategory.value.length) {
                 errorMessage.value = `Aucun produit de la catégorie ${categoryName} disponible.`
@@ -92,7 +95,7 @@ export const useProductStore = defineStore("productStore", () => {
                 errorMessage.value = null
             }
         } catch (error: unknown) {
-            errorMessage.value = error instanceof Error ? error.message : "Erreur lors de la récupération des produits."
+            handleError(error)
         } finally {
             loading.value = false
         }
@@ -103,16 +106,11 @@ export const useProductStore = defineStore("productStore", () => {
 
         try {
             const response = await productService.getProductById(id)
-            console.log('Response from product service:', response); 
 
             product.value = response
-
-            console.log('Product value:', product.value);
             
-
-            
-        } catch (error: any) {
-            errorMessage.value = error.message || "Erreur lors de la récupération du produit."
+        } catch (error: unknown) {
+            handleError(error)
         } finally {
             loading.value = false
         }
@@ -151,6 +149,5 @@ export const useProductStore = defineStore("productStore", () => {
         fetchProductsByCategory,
         fetchProductById,
         setSortCriteria,
-
     }
 })

@@ -6,7 +6,8 @@ import FetchError from "@/utils/error/FetchError"
 import router from "@/router"
 
 export const useAuthStore = defineStore("authStore", () => {
-    //// States ////
+    
+    //////// States ////////
 
     const token = ref<string | null>(null)
     const user = ref<User | null>(null)
@@ -14,10 +15,11 @@ export const useAuthStore = defineStore("authStore", () => {
     const loading = ref<boolean>(false)
     const errorMessage = ref<string | null>(null)
 
-    //// Services ////
+    //////// Services ////////
+    
     const authService = new AuthService()
 
-    //// Methods ////
+    //////// Methods ////////
 
     const login = async (username: string, password: string) => {
         loading.value = true
@@ -36,11 +38,7 @@ export const useAuthStore = defineStore("authStore", () => {
                 errorMessage.value = "Identifiants incorrects."
             }
         } catch (error: unknown) {
-            if (error instanceof FetchError) {
-                errorMessage.value = error.message
-            } else {
-                errorMessage.value = "Erreur lors de la connexion de l'utilisateur."
-            }
+            errorMessage.value = error instanceof FetchError ? error.message : "Erreur lors de la connexion."
         }
 
         loading.value = false

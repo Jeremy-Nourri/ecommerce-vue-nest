@@ -1,5 +1,6 @@
 import type User from '../types/interfaces/User'
 import { URL_API_USERS } from '../env'
+import FetchError from "@/utils/error/FetchError";
 
 export class UserService {
     public async getUserById(userId: string): Promise<User | null> {
@@ -14,8 +15,9 @@ export class UserService {
                     return null
                 }
 
-                throw new Error(`Erreur HTTP: ${response.status}`)
+                throw new FetchError(response.statusText, response.status, errorData)
             }
+
             const data = await response.json()
 
             const user: User = {
@@ -47,7 +49,7 @@ export class UserService {
                     return null
                 }
 
-                throw new Error(`Erreur HTTP: ${response.status}`)
+                throw new FetchError(response.statusText, response.status, errorData)
             }
             const data = await response.json()
 

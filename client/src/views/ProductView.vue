@@ -1,12 +1,25 @@
 <script setup lang="ts">
-import { watch, computed } from 'vue';
+
+import { watch, computed, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useProductStore } from '@/store/useProductsStore';
+import { useCartStore } from '@/store/useCartStore';
+
 import calculateTheReviewAverage from '@/utils/calculateTheReviewAverage';
 import { StarIcon } from '@heroicons/vue/20/solid'
+import QuantityInput from '@/components/QuantityInput.vue';
 
-const productStore= useProductStore();
+
+const productStore = useProductStore();
+const cartStore = useCartStore();
+
 const route = useRoute();
+
+const quantity = ref(1);
+
+const handleQuantityUpdate = (value: number) => {
+    quantity.value = value;
+};
 
 const getProductId = () => {
     return Array.isArray(route.params.productId) ? route.params.productId[0] : route.params.productId;
@@ -90,15 +103,20 @@ const reviewsAverage = computed(() => calculateTheReviewAverage(productStore.pro
                             </div>
                             <p class="sr-only">{{ reviewsAverage }} out of 5 stars</p>
                             <p
-                                class="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500">{{
+                                class="ml-3 text-sm font-medium text-secondary hover:opacity-80">{{
                                 productStore.product?.reviews ? productStore.product?.reviews.length : 0 }} reviews</p>
                         </div>
-                        <button type="submit" class="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-secondary px-8 py-3 text-base font-medium text-white hover:opacity-80 focus:outline-none focus:ring-2 focus:bg-secondary focus:ring-offset-2">Add to bag</button>
+                        <button type="submit" class="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-secondary
+                            px-8 py-3 text-base font-medium text-white hover:opacity-80 focus:outline-none focus:ring-2 focus:bg-secondary focus:ring-offset-2">
+                            Add to bag
+                        </button>
+                        <QuantityInput @update:quantity="handleQuantityUpdate" />
 
                     </div>
                 </div>
 
                 <div class="py-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pb-16 lg:pr-8 lg:pt-6">
+                    
                     <!-- Description and details -->
                     <div>
                         <h3 class="sr-only">Description</h3>

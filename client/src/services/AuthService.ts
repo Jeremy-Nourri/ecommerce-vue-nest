@@ -18,6 +18,7 @@ export class AuthService {
             }
 
             const data = await response.json();
+
             const user: User = {
                 id: data.id,
                 firstName: data.firstName,
@@ -29,6 +30,7 @@ export class AuthService {
             };
 
             return user;
+            
         } catch (error) {
             console.error("Erreur lors de la connexion de l'utilisateur", error);
             return null;

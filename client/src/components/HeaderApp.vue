@@ -115,8 +115,6 @@ const navigation = {
                                     </router-link>
                                 </div>
 
-
-
                             </div>
 
                             <!-- Links -->

@@ -12,10 +12,10 @@ interface CartDummy {
 
 export const useCartStore = defineStore("cartStore", () => {
 
-    //// State ////
+    //////// State ////////
     const cart = ref<CartDummy | null>(null)
 
-    //// Methods ////
+    //////// Methods ////////
 
     const createCartInStore = (userId: number) => {
         cart.value = {
