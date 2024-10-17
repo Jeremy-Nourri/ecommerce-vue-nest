@@ -11,7 +11,6 @@ export const useAuthStore = defineStore("authStore", () => {
 
     const token = ref<string | null>(null)
     const user = ref<User | null>(null)
-    const returnUrl = ref<string | null>(null)
     const loading = ref<boolean>(false)
     const errorMessage = ref<string | null>(null)
 
@@ -33,7 +32,7 @@ export const useAuthStore = defineStore("authStore", () => {
 
                 errorMessage.value = null
 
-                router.push(returnUrl.value || "/")
+                router.push( "/")
             } else {
                 errorMessage.value = "Identifiants incorrects."
             }
@@ -54,7 +53,6 @@ export const useAuthStore = defineStore("authStore", () => {
     return {
         token,
         user,
-        returnUrl,
         loading,
         errorMessage,
         login,

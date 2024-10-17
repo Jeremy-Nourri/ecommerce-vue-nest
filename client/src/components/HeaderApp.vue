@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, type PropType } from 'vue'
+import { computed, ref, watch, type PropType } from 'vue'
 import {
     Dialog,
     DialogPanel,
@@ -21,8 +21,10 @@ import Logo from '@/assets/img/logo.jpg'
 import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, UserCircleIcon, XMarkIcon, CheckIcon } from '@heroicons/vue/24/outline'
 import type ProductCollection from '@/types/interfaces/ProductCollection'
 import { useAuthStore } from '@/store/useAuthStore'
+import { useCartStore } from '@/store/useCartStore'
 
 const authStore = useAuthStore()
+const cartStore = useCartStore()
 
 const props = defineProps({
     productsData: {
@@ -45,6 +47,19 @@ const navigation = {
         }
     ],
 }
+
+
+
+const productsInBag = computed(() => {
+    const cart = cartStore.cart;
+    if (cart && cart.products) {
+        return cart.products.reduce((acc, product) => acc + product.quantity, 0);
+    }
+    return 0;
+});
+
+
+
 
 </script>
 
@@ -87,7 +102,7 @@ const navigation = {
                                             class="h-8 w-8 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
                                             aria-hidden="true" />
                                         <span
-                                            class="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">0</span>
+                                            class="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">{{ productsInBag }}</span>
                                         <span class="sr-only">articles, voir le panier</span>
                                     </router-link>
                                 </div>
@@ -183,8 +198,6 @@ const navigation = {
                         </div>
                     </div>
 
-
-
                     <!-- Flyout menus -->
                     <PopoverGroup class="hidden lg:ml-8 lg:block lg:self-stretch">
                         <div class="flex h-full space-x-8">
@@ -244,14 +257,14 @@ const navigation = {
 
                         <div class="hidden md:flex justify-end items-center px-6 h-10">
                             <div class="mr-6">
-                                <a href="#" class="group -m-2 flex items-center p-2">
+                                <router-link to="/cart" class="group -m-2 flex items-center p-2">
                                     <ShoppingBagIcon
                                         class="h-8 w-8 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
                                         aria-hidden="true" />
                                     <span
-                                        class="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">0</span>
+                                        class="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">{{ productsInBag }}</span>
                                     <span class="sr-only">articles, voir le panier</span>
-                                </a>
+                                </router-link>
                             </div>
 
                             <!-- User -->
