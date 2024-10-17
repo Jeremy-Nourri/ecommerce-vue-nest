@@ -2,38 +2,49 @@
 
 import { ref, watch } from 'vue'
 
-const emit = defineEmits(['update-quantity'])
+const props = defineProps({
+    modelValue: {
+        type: Number,
+        required: true,
+    },
+});
 
-const quantity = ref(1)
+const emit = defineEmits(['update:modelValue'])
+
 const errorMessage = ref('')
+const quantity = ref(props.modelValue)
 
 const increment = () => {
-    quantity.value++
-    console.log(quantity.value);
+    if(quantity.value < 99) {
+        quantity.value++
+        emit('update:modelValue', quantity.value)
+    }
 }
 
 const decrement = () => {
     if (quantity.value > 1) {
         quantity.value--
+        emit('update:modelValue', quantity.value)
     }
 }
 
-watch(quantity, (newVal, oldVal) => {
-    
-    if (newVal !== oldVal) {
-
-        if (newVal < 1) {
-            quantity.value = 1
-            errorMessage.value = 'La quantité minimale est 1.'
-        } else if (newVal > 99) {
-            quantity.value = 99
-            errorMessage.value = 'La quantité maximale est 99.'
-        } else {
-            errorMessage.value = ''
-            emit('update-quantity', newVal)
-        }
+watch(quantity, (newValue) => {
+    if (newValue < 1) {
+        quantity.value = 1;
+    } else if (newValue > 99) {
+        quantity.value = 99;
     }
+    emit('update:modelValue', quantity.value);
 });
+
+
+watch(
+    () => props.modelValue,
+    (newVal) => {
+        quantity.value = newVal;
+    }
+);
+
 
 </script>
 

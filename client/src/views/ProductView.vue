@@ -19,10 +19,6 @@ const route = useRoute();
 
 const quantity = ref(1);
 
-const handleQuantityUpdate = (value: number) => {
-    quantity.value = value;
-};
-
 const handleSubmit = () => {
     cartStore.addProductToCart(authStore.user?.id ?? 0, productStore.product?.id ?? 0, quantity.value);
 };
@@ -35,6 +31,8 @@ watch(
     () => route.params.productId,
     async () => {
         await productStore.fetchProductById(Number(getProductId()));
+        quantity.value = 1;
+
     },
     { immediate: true }
 );
@@ -113,7 +111,7 @@ const reviewsAverage = computed(() => calculateTheReviewAverage(productStore.pro
                                 productStore.product?.reviews ? productStore.product?.reviews.length : 0 }} reviews</p>
                         </div>
                         <div class="mt-10 ">
-                            <QuantityInput @update-quantity="handleQuantityUpdate" />
+                            <QuantityInput v-model="quantity" />
                             <button @click="handleSubmit" type="submit" class="flex w-full items-center justify-center rounded-md border border-transparent bg-secondary
                             px-8 py-3 text-base font-medium text-white hover:opacity-80 focus:outline-none focus:ring-2 focus:bg-secondary focus:ring-offset-2">
                                 Add to bag
