@@ -10,4 +10,9 @@ export class ProductsController {
     async getProductById(@Param('id', ParseIntPipe) id: number): Promise<ProductDto> {
         return this.productsService.findProductById(id);
     }
+
+    @Get('category/:title')
+    async getProductsByCategory(@Param('title') title: string): Promise<ProductDto[]> {
+        return this.productsService.findProductsByCategory(title);
+    }
 }
