@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, watch, type PropType } from 'vue'
+import { computed, ref, type PropType } from 'vue'
 import {
     Dialog,
     DialogPanel,
@@ -102,7 +102,8 @@ const productsInBag = computed(() => {
                                             class="h-8 w-8 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
                                             aria-hidden="true" />
                                         <span
-                                            class="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">{{ productsInBag }}</span>
+                                            class="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">{{
+                                                productsInBag }}</span>
                                         <span class="sr-only">articles, voir le panier</span>
                                     </router-link>
                                 </div>
@@ -125,7 +126,7 @@ const productsInBag = computed(() => {
 
                                     <p v-if="authStore.user" class="text-xs">{{ authStore.user.username }}</p>
 
-                                    <p v-else class="text-xs">Log in</p>
+                                    <p v-else class="text-xs">Sign in</p>
                                 </router-link>
 
 
@@ -216,28 +217,22 @@ const productsInBag = computed(() => {
 
                                     <PopoverPanel class="absolute inset-x-0 top-full text-sm text-gray-500">
 
-                                        <div class="absolute inset-0 top-1/2 bg-white shadow" aria-hidden="true" />
-
-                                        <div class="relative bg-white">
-                                            <div class="mx-auto max-w-7xl px-8">
-                                                <div class="grid grid-cols-2 gap-x-8 gap-y-10 py-16">
-
-                                                    <div class="row-start-1 grid grid-cols-3 gap-x-8 gap-y-10 text-sm">
+                                        <!-- <div class="absolute inset-0 bg-white shadow" aria-hidden="true" /> -->
 
 
-                                                        <ul role="list" class="mt-6 space-y-6 sm:mt-4 sm:space-y-4">
-                                                            <li v-for="item in (category.name === 'Smartphones' ? props.productsData.phones : props.productsData.tablets)"
-                                                                :key="item.id" class="flex">
-                                                                <router-link :to="`/produit/${item.id}`"
-                                                                    class="hover:text-gray-800">{{ item.title }}
-                                                                </router-link>
-                                                            </li>
-                                                        </ul>
-
-                                                    </div>
-                                                </div>
+                                            <div class="bg-gray-50 text-sm pb-8 px-8">
+                                                <ul role="list" class="flex flex-wrap items-center sm:space-y-4">
+                                                    <li v-for="item in (category.name === 'Smartphones' ? props.productsData.phones : props.productsData.tablets)"
+                                                        :key="item.id" class="p-4 flex items-center justify-center">
+                                                        <router-link :to="`/produit/${item.id}`"
+                                                            class="hover:text-gray-800">{{ item.title }}
+                                                        </router-link>
+                                                    </li>
+                                                </ul>
                                             </div>
-                                        </div>
+
+
+
                                     </PopoverPanel>
                                 </transition>
                             </Popover>
@@ -261,8 +256,8 @@ const productsInBag = computed(() => {
                                     <ShoppingBagIcon
                                         class="h-8 w-8 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
                                         aria-hidden="true" />
-                                    <span
-                                        class="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">{{ productsInBag }}</span>
+                                    <span class="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">{{
+                                        productsInBag }}</span>
                                     <span class="sr-only">articles, voir le panier</span>
                                 </router-link>
                             </div>
@@ -283,7 +278,7 @@ const productsInBag = computed(() => {
                                 <span class="sr-only">Compte</span>
 
                                 <p v-if="authStore.user" class="text-xs">{{ authStore.user.username }}</p>
-                                <p v-else class="text-xs">Log in</p>
+                                <p v-else class="text-xs">Sign in</p>
                             </router-link>
                         </div>
                     </div>

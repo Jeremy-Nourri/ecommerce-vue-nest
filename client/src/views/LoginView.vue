@@ -58,7 +58,7 @@ const onSubmit = handleSubmit(async (values) => {
                             <a href="#" class="font-semibold text-secondary hover:opacity-80 text-[0.6rem]">Forgot
                                 password?</a>
                         </div>
-                        <p v-if="errors.password" class="mt-2 text-xs text-red-600">{{ errors.password }}</p>
+                        <p v-if="errors.password" class="text-xs text-red-600">{{ errors.password }}</p>
                     </div>
                 </div>
                 <div>
