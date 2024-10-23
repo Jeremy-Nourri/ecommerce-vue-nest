@@ -1,7 +1,9 @@
 import type Tablet from "@/types/interfaces/tablet/Tablet"
 import type ProductsResponse from "@/types/interfaces/ProductsResponse"
-import { URL_API_CATEGORY, URL_API_PRODUCTS } from "@/env"
 import FetchError from "@/utils/error/FetchError";
+
+const URL_API_CATEGORY = import.meta.env.VITE_URL_API_CATEGORY
+const URL_API_PRODUCTS = import.meta.env.VITE_URL_API_PRODUCTS
 
 export class TabletService {
 

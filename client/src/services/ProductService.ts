@@ -1,6 +1,7 @@
-import { URL_API_PRODUCTS } from "@/env"
 import { type Product } from "@/types/ProductType"
 import FetchError from "@/utils/error/FetchError";
+
+const URL_API_PRODUCTS = import.meta.env.VITE_URL_API_PRODUCTS
 
 export class ProductService {
     public async getProductById(id: number): Promise<Product | null> {

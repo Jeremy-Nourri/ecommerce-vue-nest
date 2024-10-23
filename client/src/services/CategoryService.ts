@@ -1,10 +1,19 @@
-import { URL_API_CATEGORY } from "@/env"
 import type ProductsResponse from "@/types/interfaces/ProductsResponse"
 import FetchError from "@/utils/error/FetchError";
 
+
+const URL_API_CATEGORY = import.meta.env.VITE_URL_API_CATEGORY;
+
+console.log(URL_API_CATEGORY);
+
+
+
+
 export class CategoryService {
+
     public async getProductsByCategory(categoryName: string): Promise<ProductsResponse | []> {
         try {
+            console.log(`${URL_API_CATEGORY}${categoryName}`);
             const response = await fetch(`${URL_API_CATEGORY}${categoryName}`)
 
             if (!response.ok) {

@@ -1,8 +1,10 @@
 import type User from '../types/interfaces/User'
-import { URL_API_USERS } from '../env'
 import FetchError from "@/utils/error/FetchError";
 
+const URL_API_USERS = import.meta.env.VITE_URL_API_USERS
+
 export class UserService {
+    
     public async getUserById(userId: string): Promise<User | null> {
         try {
             const response = await fetch(`${URL_API_USERS}${userId}`)
