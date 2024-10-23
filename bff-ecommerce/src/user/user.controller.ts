@@ -11,7 +11,6 @@ export class UserController {
 
     @Post('login')
     async registerUser(@Body() userPostDto: UserPostDto): Promise<UserDto> {
-        console.log(userPostDto);
         
         return this.userService.signIn(userPostDto);
     }

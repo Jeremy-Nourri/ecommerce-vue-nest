@@ -30,7 +30,6 @@ export class UserService {
                 catchError((error: AxiosError) => {
                     this.logger.error(`Error while signing in user`, error)
 
-                    console.error(error.response?.data)
                     throw new UnauthorizedException(`Invalid credentials`)
                 })
             )

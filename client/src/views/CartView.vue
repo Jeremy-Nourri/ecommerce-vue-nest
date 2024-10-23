@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useCartStore } from '@/store/useCartStore'
 import { ProductService } from '@/services/ProductService';
 import type { Product } from '@/types/ProductType';
@@ -28,7 +28,6 @@ const fetchFullCart = async () => {
         });
 
         fullCart.value = (await Promise.all(productPromises)).filter(p => p !== null) as Product[];
-        console.log(fullCart.value);
         
     }
 };
@@ -54,8 +53,8 @@ onMounted(() => {
             <div class="mt-8">
                 <div class="flow-root">
                     <ul role="list" class="-my-6 divide-y divide-gray-200">
-                        <li v-for="product in fullCart" :key="product.id" class="flex py-6">
-                            <div class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
+                        <li v-for="product in fullCart" :key="product.id" class="flex py-6 flex-col md:flex-row">
+                            <div class="h-24 w-24 mb-2 mx-auto md:mx-0 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                                 <img :src="product.thumbnail" :alt="product.title"
                                     class="h-full w-full object-cover object-center" />
                             </div>
@@ -68,7 +67,7 @@ onMounted(() => {
                                         </h3>
                                         <p class="ml-4">{{ product.price }} €</p>
                                     </div>
-                                    <!-- <p class="mt-1 text-sm text-gray-500">{{ product.color }}</p> -->
+
                                 </div>
                                 <div class="flex flex-1 items-end justify-between text-sm">
                                     <p class="text-gray-500">Quantity {{ product.quantity }}</p>

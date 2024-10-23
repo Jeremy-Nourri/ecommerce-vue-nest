@@ -19,19 +19,7 @@ export class AuthService {
                 throw new FetchError(response.statusText, response.status, await response.json());
             }
 
-            const data = await response.json();
-
-            const user: User = {
-                id: data.id,
-                firstName: data.firstName,
-                lastName: data.lastName,
-                username: data.username,
-                email: data.email,
-                password: data.password,
-                accessToken: data.accessToken,
-            };
-
-            return user;
+            return await response.json();
             
         } catch (error) {
             console.error("Erreur lors de la connexion de l'utilisateur", error);

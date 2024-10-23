@@ -47,7 +47,7 @@ export const useProductStore = defineStore("productStore", () => {
 
         try {
             const response = await phoneService.getPhones()
-            products.value.phones = Array.isArray(response) ? response : []
+            products.value.phones = Array.isArray(response) ? response : []            
 
             if (!products.value.phones.length) {
                 errorMessage.value = "Aucun téléphone disponible."

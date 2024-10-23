@@ -48,8 +48,6 @@ const navigation = {
     ],
 }
 
-
-
 const productsInBag = computed(() => {
     const cart = cartStore.cart;
     if (cart && cart.products) {
@@ -57,8 +55,6 @@ const productsInBag = computed(() => {
     }
     return 0;
 });
-
-
 
 
 </script>
@@ -122,7 +118,7 @@ const productsInBag = computed(() => {
 
                                     <span class="sr-only">Compte</span>
 
-                                    <!-- Affichage du nom de l'utilisateur ou du texte "Log in" -->
+                                    <!-- Affichage du nom de l'utilisateur ou du texte "Sign in" -->
 
                                     <p v-if="authStore.user" class="text-xs">{{ authStore.user.username }}</p>
 
@@ -153,7 +149,7 @@ const productsInBag = computed(() => {
                                         <ul role="list" class="mt-6 flex flex-col space-y-6">
                                             <li v-for="item in (category.name === 'Smartphones' ? props.productsData.phones : props.productsData.tablets)"
                                                 :key="item.id" class="flex">
-                                                <router-link :to="`/produit/${item.id}`" class="hover:text-gray-800">{{
+                                                <router-link :to="`/product/${item.id}`" class="hover:text-gray-800">{{
                                                     item.title }}</router-link>
                                             </li>
                                         </ul>
@@ -217,21 +213,16 @@ const productsInBag = computed(() => {
 
                                     <PopoverPanel class="absolute inset-x-0 top-full text-sm text-gray-500">
 
-                                        <!-- <div class="absolute inset-0 bg-white shadow" aria-hidden="true" /> -->
-
-
-                                            <div class="bg-gray-50 text-sm pb-8 px-8">
-                                                <ul role="list" class="flex flex-wrap items-center sm:space-y-4">
+                                            <div class="bg-gray-50 text-sm py-6 px-8">
+                                                <ul role="list" class="flex flex-wrap items-center ">
                                                     <li v-for="item in (category.name === 'Smartphones' ? props.productsData.phones : props.productsData.tablets)"
                                                         :key="item.id" class="p-4 flex items-center justify-center">
-                                                        <router-link :to="`/produit/${item.id}`"
+                                                        <router-link :to="`/product/${item.id}`"
                                                             class="hover:text-gray-800">{{ item.title }}
                                                         </router-link>
                                                     </li>
                                                 </ul>
                                             </div>
-
-
 
                                     </PopoverPanel>
                                 </transition>
